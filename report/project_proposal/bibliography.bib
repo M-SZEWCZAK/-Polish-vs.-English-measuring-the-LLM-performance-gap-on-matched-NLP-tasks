@@ -1,0 +1,128 @@
+@inproceedings{xuan-etal-2025-mmlu,
+    title = "{MMLU}-{P}ro{X}: A Multilingual Benchmark for Advanced Large Language Model Evaluation",
+    author = "Xuan, Weihao  and
+      Yang, Rui  and
+      Qi, Heli  and
+      Zeng, Qingcheng  and
+      Xiao, Yunze  and
+      Feng, Aosong  and
+      Liu, Dairui  and
+      Xing, Yun  and
+      Wang, Junjue  and
+      Gao, Fan  and
+      Lu, Jinghui  and
+      Jiang, Yuang  and
+      Li, Huitao  and
+      Li, Xin  and
+      Yu, Kunyu  and
+      Dong, Ruihai  and
+      Gu, Shangding  and
+      Li, Yuekang  and
+      Xie, Xiaofei  and
+      Juefei-Xu, Felix  and
+      Khomh, Foutse  and
+      Yoshie, Osamu  and
+      Chen, Qingyu  and
+      Teodoro, Douglas  and
+      Liu, Nan  and
+      Goebel, Randy  and
+      Ma, Lei  and
+      Marrese-Taylor, Edison  and
+      Lu, Shijian  and
+      Iwasawa, Yusuke  and
+      Matsuo, Yutaka  and
+      Li, Irene",
+    editor = "Christodoulopoulos, Christos  and
+      Chakraborty, Tanmoy  and
+      Rose, Carolyn  and
+      Peng, Violet",
+    booktitle = "Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing",
+    month = nov,
+    year = "2025",
+    address = "Suzhou, China",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.emnlp-main.79/",
+    doi = "10.18653/v1/2025.emnlp-main.79",
+    pages = "1513--1532",
+    ISBN = "979-8-89176-332-6",
+    abstract = "Existing large language model (LLM) evaluation benchmarks primarily focus on English, while current multilingual tasks lack parallel questions that specifically assess cross-lingual reasoning abilities. This dual limitation makes it challenging to assess LLMs' performance in the multilingual setting comprehensively. To fill this gap, we introduce MMLU-ProX, a comprehensive benchmark covering 29 languages, built on an English benchmark. Each language version consists of 11,829 identical questions, enabling direct cross-lingual comparisons. Additionally, to meet efficient evaluation needs, we provide a lite version containing 658 questions per language. To ensure the high quality of MMLU-ProX, we employ a rigorous development process that involves multiple powerful LLMs for translation, followed by expert review to ensure accurate expression, consistent terminology, and cultural relevance. Building on this, we systematically evaluate 36 state-of-the-art LLMs, including reasoning-enhanced and multilingual-optimized LLMs. The results reveal significant disparities in the multilingual capabilities of LLMs: While they perform well in high-resource languages, their performance declines markedly in low-resource languages, particularly for African languages. Through MMLU-ProX, we aim to advance the development of more inclusive AI systems and promote equitable access to technology across global contexts."
+}
+@inproceedings{liu-etal-2025-translation,
+    title = "Is Translation All You Need? A Study on Solving Multilingual Tasks with Large Language Models",
+    author = "Liu, Chaoqun  and
+      Zhang, Wenxuan  and
+      Zhao, Yiran  and
+      Luu, Anh Tuan  and
+      Bing, Lidong",
+    editor = "Chiruzzo, Luis  and
+      Ritter, Alan  and
+      Wang, Lu",
+    booktitle = "Proceedings of the 2025 Conference of the Nations of the {A}mericas Chapter of the {A}ssociation for {C}omputational {L}inguistics: Human Language Technologies (Volume 1: Long Papers)",
+    month = apr,
+    year = "2025",
+    address = "Albuquerque, New Mexico",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.naacl-long.485/",
+    doi = "10.18653/v1/2025.naacl-long.485",
+    pages = "9594--9614",
+    ISBN = "979-8-89176-189-6",
+    abstract = "Large language models (LLMs) have demonstrated multilingual capabilities, yet they are mostly English-centric due to the imbalanced training corpora. While prior works have leveraged this bias to enhance multilingual performance through translation, they have been largely limited to natural language processing (NLP) tasks. In this work, we extend the evaluation to real-world user queries and non-English-centric LLMs, offering a broader examination of multilingual performance. Our key contribution lies in demonstrating that while translation into English can boost the performance of English-centric LLMs on NLP tasks, it is not universally optimal. For culture-related tasks that need deep language understanding, prompting in the native language proves more effective as it better captures the nuances of culture and language. Our experiments expose varied behaviors across LLMs and tasks in the multilingual context, underscoring the need for a more comprehensive approach to multilingual evaluation. Therefore, we call for greater efforts in developing and evaluating LLMs that go beyond English-centric paradigms."
+}
+@inproceedings{huang-etal-2023-languages,
+    title = "Not All Languages Are Created Equal in {LLM}s: Improving Multilingual Capability by Cross-Lingual-Thought Prompting",
+    author = "Huang, Haoyang  and
+      Tang, Tianyi  and
+      Zhang, Dongdong  and
+      Zhao, Wayne Xin  and
+      Song, Ting  and
+      Xia, Yan  and
+      Wei, Furu",
+    editor = "Bouamor, Houda  and
+      Pino, Juan  and
+      Bali, Kalika",
+    booktitle = "Findings of the {A}ssociation for {C}omputational {L}inguistics: {EMNLP} 2023",
+    month = dec,
+    year = "2023",
+    address = "Singapore",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2023.findings-emnlp.826/",
+    doi = "10.18653/v1/2023.findings-emnlp.826",
+    pages = "12365--12394",
+    abstract = "Large language models (LLMs) demonstrate impressive multilingual capability, but their performance varies substantially across different languages. In this work, we introduce a simple yet effective method, called cross-lingual-thought prompting (XLT), to systematically improve the multilingual capability of LLMs. Specifically, XLT is a generic template prompt that stimulates cross-lingual and logical reasoning skills to enhance task performance across languages. We conduct comprehensive evaluations on 7 typical benchmarks related to reasoning, understanding, and generation tasks, covering both high-resource and low-resource languages. Experimental results show that XLT not only remarkably enhances the performance of various multilingual tasks but also significantly reduces the gap between the average performance and the best performance of each task in different languages. Notably, XLT brings over 10 points of average improvement in arithmetic reasoning and open-domain question-answering tasks."
+}
+@inproceedings{wendler-etal-2024-llamas,
+    title = "Do Llamas Work in {E}nglish? On the Latent Language of Multilingual Transformers",
+    author = "Wendler, Chris  and
+      Veselovsky, Veniamin  and
+      Monea, Giovanni  and
+      West, Robert",
+    editor = "Ku, Lun-Wei  and
+      Martins, Andre  and
+      Srikumar, Vivek",
+    booktitle = "Proceedings of the 62nd Annual Meeting of the {A}ssociation for {C}omputational {L}inguistics (Volume 1: Long Papers)",
+    month = aug,
+    year = "2024",
+    address = "Bangkok, Thailand",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.acl-long.820/",
+    doi = "10.18653/v1/2024.acl-long.820",
+    pages = "15366--15394",
+    abstract = "We ask whether multilingual language models trained on unbalanced, English-dominated corpora use English as an internal pivot language{---}-a question of key importance for understanding how language models function and the origins of linguistic bias. Focusing on the Llama-2 family of transformer models, our study is based on carefully constructed non-English prompts with a unique correct single-token continuation. From layer to layer, transformers gradually map an input embedding of the final prompt token to an output embedding from which next-token probabilities are computed. Tracking intermediate embeddings through their high-dimensional space reveals three distinct phases, whereby intermediate embeddings (1) start far away from output token embeddings; (2) already in middle layers allow for decoding a semantically correct next token, but giving higher probability to its version in English than in the input language; (3) move into an input-language-specific region of the embedding space. We cast these results into a conceptual model where the three phases operate in ``input space'', ``concept space'', and ``output space'', respectively. Crucially, our evidence suggests that the abstract ``concept space'' lies closer to English than to other input languages, which may have important consequences regarding the biases embodied by multilingual language models."
+}
+@inproceedings{
+hendrycks2021measuring,
+title={Measuring Massive Multitask Language Understanding},
+author={Dan Hendrycks and Collin Burns and Steven Basart and Andy Zou and Mantas Mazeika and Dawn Song and Jacob Steinhardt},
+booktitle={International Conference on Learning Representations},
+year={2021},
+url={https://openreview.net/forum?id=d7KBjmI3GmQ}
+}
+@article{petrov2023language,
+  title={Language model tokenizers introduce unfairness between languages},
+  author={Petrov, Aleksandar and La Malfa, Emanuele and Torr, Philip and Bibi, Adel},
+  journal={Advances in neural information processing systems},
+  volume={36},
+  pages={36963--36990},
+  year={2023}
+}
+
