@@ -64,14 +64,19 @@ Detailed description (\textbf{max. 4 meaningful pages}) in English, including th
 \item concept and work plan (general work plan - with a timeline, specific research goals, results of preliminary research, risk analysis);
 \item approach \& research methodology (underlying scientific methodology, methods, techniques and research tools, methods of results analysis, equipment and devices to be used in research);
 \item \textit{well-justified project literature (a reference list for publications included in the project description, with full bibliographic data);}
-BoolQ \cite{clark2019boolqexploringsurprisingdifficulty} evaluates whether a model can answer natural yes/no questions using a supporting passage. It uses approximately 16.000 naturally occurring questions paired with Wikipedia paragraphs. The model receives a question and its passage and predicts either “yes” or “no.” The best reported result is 80.43\% accuracy, achieved by BERT-large with MultiNLI pretraining, fine-tuned on BoolQ. The dataset from this paper is going to be used as a part of our task.
+\begin{itemize} 
+\item BoolQ \cite{clark2019boolqexploringsurprisingdifficulty} evaluates whether a model can answer natural yes/no questions using a supporting passage. It uses approximately 16.000 naturally occurring questions paired with Wikipedia paragraphs. The model receives a question and its passage and predicts either “yes” or “no.” The best reported result is 80.43\% accuracy, achieved by BERT-large with MultiNLI pretraining, fine-tuned on BoolQ. This dataset will be used as one of the benchmarks in our project.
+\item MGSM \cite{shi2022languagemodelsmultilingualchainofthought} evaluates the multilingual mathematical reasoning abilities of Large Language Models. It consists of 250 grade--school math problems from the GSM8K dataset, manually translated into ten diverse languages. The model receives a mathematical question in one of the target languages and generates a numerical answer, either directly or by providing intermediate reasoning steps using chain-of-thought prompting. The best reported result is 55.0\% accuracy, achieved by PaLM-540B using English chain-of-thought reasoning after translating the questions into English.
+\item Okapi \cite{lai2023okapiinstructiontunedlargelanguage} introduces a framework for instruction-tuning large language models in multiple languages using reinforcement learning from human feedback (RLHF). It covers 26 languages and provides approximately 158.000 instruction examples translated from English. The models are evaluated on their ability to follow instructions and perform knowledge-based and reasoning tasks across different languages. The best reported average result is 49.6\% accuracy on HellaSwag, achieved by the LLaMA-7B model fine-tuned using RLHF.
+\item Self-Translate \cite{etxaniz2023multilinguallanguagemodelsthink} investigates whether multilingual language models perform better on reasoning tasks when processing inputs in English rather than in their original language. It introduces a method called self-translate, in which the model first translates the input into English using four-shot prompting and then solves the task using the translated text. The approach is evaluated on five multilingual benchmarks: XStoryCloze, XCOPA, XNLI, PAWS-X, and MGSM, covering common-sense reasoning, natural language inference, paraphrase identification, and mathematical reasoning across multiple languages. Experiments are conducted using XGLM models ranging from 564M to 7.5B parameters and LLaMA models ranging from 7B to 30B parameters. The best reported average result is 46.6\% accuracy, achieved by LLaMA-30B using self-translate, compared to 43.1\% with direct inference. The results show that translating inputs into English consistently improves performance across the evaluated models.
+\end{itemize}
 \item \textit{data statement (new for 2026/27) -- source of the data, licence, whether it contains personal data, and what you do about it. Six lines are enough;}
 \begin{table*}[t]
 \centering
 \small
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.25}
-\begin{tabular}{p{1.5cm} p{1.5cm} p{2.3cm} p{1.9cm} p{1.3cm} p{1.5cm} p{2.5cm}}
+\begin{tabular}{p{1.2cm} p{2.5cm} p{2.5cm} p{1.9cm} p{1.7cm} p{2cm} p{2.2cm}}
 \hline
 \textbf{Dataset} &
 \textbf{Size} &
@@ -107,28 +112,19 @@ ARC-Challenge
 & READY + TRANSLATION TO COLLECT \\
 
 BoolQ
-& 3,270 test questions
-& Yes / No
-& To verify
-& To verify
-& Public benchmark
+& 9,427 train records and 3,270 validation records
+& Question, Paragraph, Answer
+& Majority of True label, 62.31\%
+& cc-by-sa-3.0
+& Public dataset
 & READY + TRANSLATION TO COLLECT \\
 
 \hline
 \end{tabular}
-\caption{Overview of candidate English benchmarks and planned
-Polish translations. Dataset sizes refer to the test splits.
-The availability of each dataset for translation is subject
-to individual licence verification.}
+\caption{Overview of the datasets.}
 \label{tab:datasets}
 \end{table*}
-As shown in Table~\ref{tab:datasets}, we consider four popular English benchmarks for our study. The original English benchmarks are publicly available (READY). Polish translations
-are TO COLLECT. A subset of each benchmark will be translated
-using machine translation and reviewed by the project team.
-The translation procedure, including the tools used and any
-post-editing steps, will be documented. The final number of
-translated items, collection deadline, and responsible
-annotators will be specified in the data collection plan.
+As shown in Table~\ref{tab:datasets}, we consider four popular English benchmarks for our study. The original English datasets are publicly available -- READY, while Polish translations are TO COLLECT. Table~\ref{tab:datasets} also lists the licences under which the benchmarks are distributed. The BoolQ dataset does not contain any personal information, as its answers are based on Wikipedia paragraphs \cite{clark2019boolqexploringsurprisingdifficulty}. A subset of each benchmark will be translated using machine translation and reviewed.
 
 \item \textbf{contribution table} -- each team member, what they did, workload in hours. \textbf{Required in this and every later phase report; a report submitted without it is not accepted for grading, not just marked down};
 \item \textbf{declaration of LLM use} -- which tools, for what. \textbf{A report without this is not accepted for grading} (new for 2026/27).
