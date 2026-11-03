@@ -49,19 +49,87 @@
 \vspace{4pt}
 
 \begin{abstract}
-  Write about the proposed work touching the research gap you are addressing, novelty, and on the proposed deliverable aimed from this project.
-  (Short description up to 250 words.)
+  Large Language Models are evaluated mostly in English, but users also work in different languages such as Polish.
+  The proposal of the project consists of building a small and reproducible Polish--English benchmark, evaluating several Large Language Models under identical prompts, and quantifying how much of the observed performance gap is due to model size, prompting and translation quality.
 \end{abstract}
-
 \section{Introduction}
+Benchmark scores reported for English do not transfer directly to Polish.
+A drop in accuracy on a Polish version of a task may reflect a real weakness of the model in Polish, but also artefacts of how the Polish version was produced (machine translation errors, translationese), of how the model is prompted, or of how Polish text is tokenized.
+Without separating these factors, a ``Polish gap'' is hard to interpret.
+\section{Requirements}
 Detailed description (\textbf{max. 4 meaningful pages}) in English, including the following information:
 \begin{enumerate}
 \item scientific goal of the project (description of the problem to be solved, research questions and hypotheses);
 \item significance of the project (state of the art, justification for tackling a specific scientific problem, justification for the pioneering nature of the project, the impact of the project results on the development of the research field and scientific discipline);
 \item concept and work plan (general work plan - with a timeline, specific research goals, results of preliminary research, risk analysis);
 \item approach \& research methodology (underlying scientific methodology, methods, techniques and research tools, methods of results analysis, equipment and devices to be used in research);
-\item well-justified project literature (a reference list for publications included in the project description, with full bibliographic data);
-\item \textbf{data statement} (new for 2026/27) -- source of the data, licence, whether it contains personal data, and what you do about it. Six lines are enough;
+\item \textit{well-justified project literature (a reference list for publications included in the project description, with full bibliographic data);}
+BoolQ \cite{clark2019boolqexploringsurprisingdifficulty} evaluates whether a model can answer natural yes/no questions using a supporting passage. It uses approximately 16.000 naturally occurring questions paired with Wikipedia paragraphs. The model receives a question and its passage and predicts either “yes” or “no.” The best reported result is 80.43\% accuracy, achieved by BERT-large with MultiNLI pretraining, fine-tuned on BoolQ. The dataset from this paper is going to be used as a part of our task.
+\item \textit{data statement (new for 2026/27) -- source of the data, licence, whether it contains personal data, and what you do about it. Six lines are enough;}
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{p{1.5cm} p{1.5cm} p{2.3cm} p{1.9cm} p{1.3cm} p{1.5cm} p{2.5cm}}
+\hline
+\textbf{Dataset} &
+\textbf{Size} &
+\textbf{Label definition} &
+\textbf{Class balance} &
+\textbf{Licence} &
+\textbf{How obtained} &
+\textbf{Status} \\
+\hline
+
+MMLU
+& 14,042 test questions
+& Multiple-choice answers (4 options)
+& To verify
+& To verify
+& Public benchmark
+& READY + TRANSLATION TO COLLECT \\
+
+GSM8K
+& 8,792 test questions
+& Numerical answers
+& Not applicable
+& To verify
+& Public benchmark
+& READY + TRANSLATION TO COLLECT \\
+
+ARC-Challenge
+& 2,590 test questions
+& Multiple-choice answers
+& To verify
+& To verify
+& Public benchmark
+& READY + TRANSLATION TO COLLECT \\
+
+BoolQ
+& 3,270 test questions
+& Yes / No
+& To verify
+& To verify
+& Public benchmark
+& READY + TRANSLATION TO COLLECT \\
+
+\hline
+\end{tabular}
+\caption{Overview of candidate English benchmarks and planned
+Polish translations. Dataset sizes refer to the test splits.
+The availability of each dataset for translation is subject
+to individual licence verification.}
+\label{tab:datasets}
+\end{table*}
+As shown in Table~\ref{tab:datasets}, we consider four popular English benchmarks for our study. The original English benchmarks are publicly available (READY). Polish translations
+are TO COLLECT. A subset of each benchmark will be translated
+using machine translation and reviewed by the project team.
+The translation procedure, including the tools used and any
+post-editing steps, will be documented. The final number of
+translated items, collection deadline, and responsible
+annotators will be specified in the data collection plan.
+
 \item \textbf{contribution table} -- each team member, what they did, workload in hours. \textbf{Required in this and every later phase report; a report submitted without it is not accepted for grading, not just marked down};
 \item \textbf{declaration of LLM use} -- which tools, for what. \textbf{A report without this is not accepted for grading} (new for 2026/27).
 \end{enumerate}
@@ -71,5 +139,6 @@ Detailed description (\textbf{max. 4 meaningful pages}) in English, including th
 % include your bib file like this:
 %\bibliographystyle{acl}
 %\bibliography{acl2015}
-
+\bibliographystyle{acl}
+\bibliography{bibliography}
 \end{document}
