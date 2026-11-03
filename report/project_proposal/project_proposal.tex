@@ -13,6 +13,7 @@
 \usepackage{url}
 \usepackage{latexsym}
 \usepackage{xcolor}
+\usepackage{amsmath}
 
 \setlength\titlebox{7.2cm}
 
@@ -29,13 +30,13 @@
   {\tt 01180766@pw.edu.pl} \\\And
   Emil Łasocha \\
   Album number 341168 \\
-  {\tt 01202252@pw.edu.pl} \\ \AND
+  {\tt 01202252@pw.edu.pl} \\ \And
   Patryk Sukiennik \\
   Album number ABCDEF\\
-  {\tt 01180679@pw.edu.pl} \\ \And
+  {\tt 01180679@pw.edu.pl} \\ \AND
   Michał Szewczak \\
   Album number 327320 \\
-  {\tt 01180750@pw.edu.pl} \\ \AND
+  {\tt 01180750@pw.edu.pl} \\ \And
   supervisor: Michał Gromadzki\\
   Warsaw University of Technology \\
   {\tt XXXXXXXXXXX@pw.edu.pl}}
@@ -53,17 +54,30 @@
   The proposal of the project consists of building a small and reproducible Polish--English benchmark, evaluating several Large Language Models under identical prompts, and quantifying how much of the observed performance gap is due to model size, prompting and translation quality.
 \end{abstract}
 \section{Introduction}
-Benchmark scores reported for English do not transfer directly to Polish.
-A drop in accuracy on a Polish version of a task may reflect a real weakness of the model in Polish, but also artefacts of how the Polish version was produced (machine translation errors, translationese), of how the model is prompted, or of how Polish text is tokenized.
-Without separating these factors, a ``Polish gap'' is hard to interpret.
-\section{Requirements}
-Detailed description (\textbf{max. 4 meaningful pages}) in English, including the following information:
+Large language models are typically assessed mainly in English, but their effectiveness in Polish may vary considerably. Examining these differences helps reveal the limitations and weaknesses that multilingual models still face. The preliminary hypothesis we claim is that evaluated model scores lower on the Polish version than on the English version of each task. Prior work typically reports many languages with one or two prompts, so the Polish result is a single data point.
+This project instead fixes four tasks, one language pair, and a controlled grid of models, prompt language and translation variants.
+This allows a decomposition of the gap rather than only its measurement.
+
+We propose the follolwing specific research goals:
+\begin{itemize}
+  \item a Polish--English benchmark covering four tasks, with a documented translation procedure.
+  \item results for multiple LLMs under matched conditions.
+  \item quantitative analysis of the gap and its dependence on task, model size and family, prompt language, translation quality and tokenization.
+\end{itemize}
+
+\section{Concept work}
+The concept work of the project are as follows. Each of the 
 \begin{enumerate}
-\item scientific goal of the project (description of the problem to be solved, research questions and hypotheses);
-\item significance of the project (state of the art, justification for tackling a specific scientific problem, justification for the pioneering nature of the project, the impact of the project results on the development of the research field and scientific discipline);
-\item concept and work plan (general work plan - with a timeline, specific research goals, results of preliminary research, risk analysis);
-\item approach \& research methodology (underlying scientific methodology, methods, techniques and research tools, methods of results analysis, equipment and devices to be used in research);
-\item \textit{well-justified project literature (a reference list for publications included in the project description, with full bibliographic data);}
+    \item Preparation: Literature review, dataset checks, selection of subset sizes and models, and repository set-up.
+    \item Data preparation: Sampling of English subsets, machine translation into Polish, documentation of the translation process, and automatic consistency checks.
+    \item Verification: Human review of a randomly selected sample and back-translation checks.
+    \item Evaluation pipeline: Development of unified English and Polish prompts, answer extraction and scoring procedures, and preliminary tests on a small sample.
+    \item Main experiments: Evaluation of all selected models across tasks, languages, and prompt variants.
+    \item Analysis: Performance gap estimation, statistical significance testing, performance decomposition, tokenization analysis, and error analysis.
+    \item Reporting: Preparation of the final report, code release.
+\end{enumerate}
+
+\section{State-of-the-Art Papers}
 \begin{itemize} 
 \item BoolQ \cite{clark2019boolqexploringsurprisingdifficulty} evaluates whether a model can answer natural yes/no questions using a supporting passage. It uses approximately 16.000 naturally occurring questions paired with Wikipedia paragraphs. The model receives a question and its passage and predicts either “yes” or “no.” The best reported result is 80.43\% accuracy, achieved by BERT-large with MultiNLI pretraining, fine-tuned on BoolQ. This dataset will be used as one of the benchmarks in our project.
 
@@ -85,7 +99,7 @@ Detailed description (\textbf{max. 4 meaningful pages}) in English, including th
 
 
 \end{itemize}
-\item \textit{data statement (new for 2026/27) -- source of the data, licence, whether it contains personal data, and what you do about it. Six lines are enough;}
+
 \begin{table*}[t]
 \centering
 \small
@@ -111,10 +125,10 @@ MMLU
 & READY + TRANSLATION TO COLLECT \\
 
 GSM8K
-& 7,473 train records and 1,319 validation records
-& Numeric answers
+& 8,792 test questions
+& Numerical answers
 & Not applicable
-& MIT licence
+& To verify
 & Public benchmark
 & READY + TRANSLATION TO COLLECT \\
 
@@ -130,7 +144,7 @@ BoolQ
 & 9,427 train records and 3,270 validation records
 & Question, Paragraph, Answer
 & Majority of True label, 62.31\%
-& CC-BY-SA-3.0
+& cc-by-sa-3.0
 & Public dataset
 & READY + TRANSLATION TO COLLECT \\
 
@@ -141,11 +155,33 @@ BoolQ
 \end{table*}
 As shown in Table~\ref{tab:datasets}, we consider four popular English benchmarks for our study. The original English datasets are publicly available -- READY, while Polish translations are TO COLLECT. Table~\ref{tab:datasets} also lists the licences under which the benchmarks are distributed. The BoolQ dataset does not contain any personal information, as its answers are based on Wikipedia paragraphs \cite{clark2019boolqexploringsurprisingdifficulty}. A subset of each benchmark will be translated using machine translation and reviewed.
 
-\item \textbf{contribution table} -- each team member, what they did, workload in hours. \textbf{Required in this and every later phase report; a report submitted without it is not accepted for grading, not just marked down};
-\item \textbf{declaration of LLM use} -- which tools, for what. \textbf{A report without this is not accepted for grading} (new for 2026/27).
-\end{enumerate}
+\section{Approach and research methodology}
 
-\textbf{Reminder: place this and every later submission in a folder named \texttt{surname\_surname\_surname\_surname} (all team members). The order set here must not change for the rest of the semester -- a mismatch costs 5 points.}
+\subsection*{Tasks and data}
+The study uses subsets of four benchmarks: MMLU, GSM8K, ARC-Challenge and BoolQ. Fixed random samples are selected from their official test splits, with stratification by subject for MMLU. English samples are translated into Polish while preserving the original dataset structure.
+
+\subsection*{Translation procedure}
+Machine translation is used to create Polish versions of the datasets. Automatic checks verify the preservation of answer options, numbers, units and text completeness. A random sample is reviewed by Polish-speaking team members and checked through back-translation to identify potential meaning changes. Translation settings and decisions are documented.
+
+\subsection*{Models and prompting}
+The evaluation covers instruction-tuned open-weight models from multiple families, including different model sizes and a Polish-focused model such as Bielik. A commercial model may also be included.
+
+Models are evaluated using zero-shot and few-shot prompting. Polish data is tested with both English and Polish instructions to examine the influence of prompt language. Greedy decoding is used, and answers are evaluated using exact match.
+
+\subsection*{Metrics and analysis}
+The main metric is the accuracy gap between English and Polish:
+\[
+\Delta = \text{Acc}_{EN} - \text{Acc}_{PL}.
+\]
+Results are analysed using 95\% confidence intervals and statistical significance tests. Additional analyses examine differences across tasks and model sizes, the effects of translation quality and prompt language, and the relationship between tokenization and model performance. A manual error analysis investigates cases where models answer correctly in English but incorrectly in Polish.
+
+\section{Contribution table and declaration of LLM use}
+Contribution:
+- Emil: $\approx$ 6 hours, 4 papers and BoolQ Dataset, the introduction and concept work paragraph, 
+- 
+
+The use of LLMs are follows:
+- using
 
 % include your bib file like this:
 %\bibliographystyle{acl}
