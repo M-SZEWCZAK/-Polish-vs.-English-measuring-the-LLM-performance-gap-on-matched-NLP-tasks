@@ -15,7 +15,8 @@
 \usepackage{latexsym}
 \usepackage{xcolor}
 \usepackage{amsmath}
-
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
 \setlength\titlebox{7.2cm}
 
 % You can expand the title box if you need extra space
@@ -69,7 +70,7 @@ We propose the follolwing specific research goals:
   \item results for multiple LLMs under matched conditions.
   \item quantitative analysis of the performance gap across
 tasks, model sizes, model families, and prompt languages,
-with additional investigation of tokenization effects.
+with additional investigation of tokenization effects where possible.
 \end{itemize}
 
 The concept work of the project are presented in Table~\ref{tab:project_timeline}.
@@ -84,32 +85,32 @@ The concept work of the project are presented in Table~\ref{tab:project_timeline
 \hline
 1 &
 Dataset inspection, model and subset selection, repository setup, and experiment planning. &
-Persons 1, 2 \\
+All four persons \\
 
 \hline
 2 &
 English subset sampling, Polish translation, translation documentation, and exploratory data analysis. &
-Persons 1, 3 \\
+Michał, Patryk, Emil \\
 
 \hline
 3 &
 Translation verification, back-translation checks, evaluation pipeline development, and proof of concept with the first result. &
-Persons 2, 4 \\
+Piotr, Patryk \\
 
 \hline
 4 &
 Prompt finalization, baseline selection, metric definition, preliminary evaluation, and runtime/memory measurements. &
-Persons 2, 3 \\
+Emil, Michał \\
 
 \hline
 5--6 &
 Main experiments across models, languages, tasks, and prompt variants; repeated runs for uncertainty estimation. &
-Persons 3, 4 \\
+Patryk, Piotr, Michał \\
 
 \hline
 7 &
 Statistical analysis, performance comparison, tokenization analysis, error analysis, and limitations. &
-Persons 1, 4 \\
+Emil, Piotr \\
 
 \hline
 8 &
@@ -211,20 +212,20 @@ BoolQ
 \label{tab:datasets}
 \end{table*}
 
-As shown in Table~\ref{tab:datasets}, we consider four popular English benchmarks for our study. The original English datasets are publicly available -- READY, while Polish translations are TO COLLECT. Table~\ref{tab:datasets} also lists the licences under which the benchmarks are distributed. The BoolQ dataset does not contain any personal information, as its answers are based on Wikipedia paragraphs \cite{clark2019boolqexploringsurprisingdifficulty}. A subset of each benchmark will be translated using machine translation and reviewed.
+As shown in Table~\ref{tab:datasets}, we consider four popular English benchmarks for our study. The original English datasets are publicly available -- READY, while Polish translations are TO COLLECT. Table~\ref{tab:datasets} also lists the licences under which the benchmarks are distributed. The BoolQ dataset does not contain any personal information, as its answers are based on Wikipedia paragraphs \cite{clark2019boolqexploringsurprisingdifficulty}.
 
 \section{Approach and research methodology}
 
+
+
 \subsection*{Tasks and data}
-The study uses subsets of four benchmarks: MMLU, GSM8K, ARC-Challenge and BoolQ. Fixed random samples are selected from their official test splits, with stratification by subject for MMLU. English samples are translated into Polish while preserving the original dataset structure.
+The study uses subsets of four benchmarks: MMLU, GSM8K, ARC-Challenge and BoolQ. Fixed random samples are selected (initially estimating 500) from their official test splits, with stratification by subject for MMLU. English samples are translated into Polish while preserving the original dataset structure.
 
 \subsection*{Translation procedure}
 Machine translation is used to create one Polish version of
 each selected dataset subset. Automatic checks verify the
 preservation of answer options, numbers, units, and text
-completeness. A randomly selected sample is reviewed by
-Polish-speaking team members and checked through
-back-translation to identify potential meaning changes.
+completeness. A randomly selected sample is reviewed by team members.
 Translation settings and decisions are documented.
 Potential translation errors are considered when interpreting
 the results and are discussed as a limitation of the study.
@@ -232,7 +233,7 @@ the results and are discussed as a limitation of the study.
 \subsection*{Models and prompting}
 The evaluation covers instruction-tuned open-weight models from multiple families, including different model sizes and a Polish-focused model such as Bielik. A commercial model may also be included.
 
-Models are evaluated using zero-shot and few-shot prompting. Polish data is tested with both English and Polish instructions to examine the influence of prompt language. Greedy decoding is used, and answers are evaluated using exact match.
+Models are evaluated using zero-shot prompting. Few-shot prompting may be done if it is necessary for smaller models. Answers are evaluated using exact match.
 
 \subsection*{Metrics and analysis}
 The main metric is the accuracy gap between English and Polish:
@@ -240,14 +241,47 @@ The main metric is the accuracy gap between English and Polish:
 \Delta = \text{Acc}_{EN} - \text{Acc}_{PL}.
 \]
 Results are analysed using 95\% confidence intervals and statistical significance tests. Additional analyses examine differences across tasks and model sizes, the effects of prompt language, and the relationship
-between tokenization and model performance. Potential effects
+between tokenization and model performance, for models supporting tokenizer access. We compare the accuracies to a baseline model in order to compare the accuracy results with a random guess.  Potential effects
 of translation errors are considered when interpreting the results. A manual error analysis investigates cases where models answer correctly in English but incorrectly in Polish.
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[
+  box/.style={draw, rounded corners, align=center, font=\footnotesize,
+              minimum height=11mm, text width=2.8cm},
+  arr/.style={-{Stealth}, thick},
+  node distance=8mm]
+\node[box] (a) {English benchmarks\\MMLU, GSM8K,\\ARC-C, BoolQ};
+\node[box, right=of a] (b) {Fixed random sample\\500 items per task};
+\node[box, right=of b] (c) {Machine translation\\EN $\rightarrow$ PL};
+\node[box, right=of c] (d) {Quality checks\\automatic, manual,\\back-translation};
+\node[box, below=of d] (e) {Run LLMs\\6--7 models};
+\node[box, left=of e] (f) {Answer extraction\\and exact match};
+\node[box, left=of f] (g) {Accuracy EN / PL,\\gap $\Delta$, 95\% CI};
+\node[box, left=of g] (h) {Analysis: gap\\decomposition,\\tokenization, errors};
+\draw[arr] (a)--(b); \draw[arr] (b)--(c); \draw[arr] (c)--(d);
+\draw[arr] (d)--(e); \draw[arr] (e)--(f); \draw[arr] (f)--(g); \draw[arr] (g)--(h);
+\end{tikzpicture}
+\caption{Experimental pipeline. The same 500 items per task are evaluated in English and in their Polish translation, so every comparison is paired.}
+\label{fig:pipeline}
+\end{figure*}
+
+\subsection*{Solution concept and success deliverables}
+Figure~\ref{fig:pipeline} shows the pipeline. Metrics and analyses are fixed
+before any results are available.
+Success deliverables:
+\begin{enumerate}
+\item A released benchmark of 4 tasks $\times$ 500 items in English and Polish, with documented and verified translation.
+\item Evaluation of 6 instruction-tuned LLMs (2 families with
+  2 sizes each, including Bielik) under matched conditions.
+\item A quantitative decomposition of the gap with confidence intervals, and error analyses.
+\end{enumerate}
 
 \section{Contribution table and declaration of LLM use}
 The contribution for the project proposal are as follows:
 \begin{itemize}
 \item Piotr:
-\item Emil: $\approx$ 6 hours, describing the 4 papers and BoolQ Dataset, the introduction and project timetable paragraph.
+\item Emil: $\approx$ 8 hours, describing the 4 papers and BoolQ Dataset, the introduction, methodology and project timetable paragraph.
 \item Patryk: $\approx$ 4 hours, describing the 4 papers  and ARC Dataset
 \item Michał:
 \end{itemize}
