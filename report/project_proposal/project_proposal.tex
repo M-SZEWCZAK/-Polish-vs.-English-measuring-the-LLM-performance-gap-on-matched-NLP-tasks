@@ -1,3 +1,4 @@
+
 %
 % File main.tex
 %
@@ -24,15 +25,15 @@
 
 
 \title{Polish vs. English: measuring the LLM performance gap on matched NLP tasks\\Project Proposal for NLP Course, Winter 2026/27}
-% https://www.overleaf.com/project/63440c16442dba647b52a1ae
+
 \author{Piotr Czarnecki \\
   Album number ABCDEF \\
-  {\tt 01180766@pw.edu.pl} \\\And
+  {\tt 01180766@pw.edu.pl} \\ \And
   Emil Łasocha \\
   Album number 341168 \\
   {\tt 01202252@pw.edu.pl} \\ \And
   Patryk Sukiennik \\
-  Album number ABCDEF\\
+  Album number 327254\\
   {\tt 01180679@pw.edu.pl} \\ \AND
   Michał Szewczak \\
   Album number 327320 \\
@@ -53,6 +54,7 @@
   Large Language Models are evaluated mostly in English, but users also work in different languages such as Polish.
   The proposal of the project consists of building a small and reproducible Polish--English benchmark, evaluating several Large Language Models under identical prompts, and quantifying how much of the observed performance gap is due to model size, prompting and translation quality.
 \end{abstract}
+
 \section{Introduction}
 Large language models are typically assessed mainly in English, but their effectiveness in Polish may vary considerably. Examining these differences helps reveal the limitations and weaknesses that multilingual models still face. Our preliminary hypothesis is that LLM performance differs
 between English and Polish, with a general tendency toward
@@ -121,27 +123,37 @@ All four persons \\
 
 \section{State-of-the-Art Papers}
 
-\begin{itemize} 
-\item BoolQ \cite{clark2019boolqexploringsurprisingdifficulty} evaluates whether a model can answer natural yes/no questions using a supporting passage. It uses approximately 16.000 naturally occurring questions paired with Wikipedia paragraphs. The model receives a question and its passage and predicts either “yes” or “no.” The best reported result is 80.43\% accuracy, achieved by BERT-large with MultiNLI pretraining, fine-tuned on BoolQ. This dataset will be used as one of the benchmarks in our project.
+\begin{itemize}
+\item BoolQ \cite{clark2019boolqexploringsurprisingdifficulty} evaluates whether a model can answer natural yes/no questions using a supporting passage. It uses approximately 16.000 naturally occurring questions paired with Wikipedia paragraphs. The model receives a question and its passage and predicts either ``yes'' or ``no.'' The best reported result is 80.43\% accuracy, achieved by BERT-large with MultiNLI pretraining, fine-tuned on BoolQ. This dataset will be used as one of the benchmarks in our project.
 
 \item GSM8K \cite{DBLP:journals/corr/abs-2110-14168} introduces curated dataset of 8.5 thousand high-quality grade school math problems with natural-language solutions. It then proposes to employ training verifiers to improve LMM's multi-step mathematical reasoning. The generator was fine-tuned for 2 epochs. 100 solutions per training problem were then sampled from it. Each solution was labeled as correct or incorrect, based only on the final answer. Then a separate verifier was trained for 1 epoch to rank solutions. Verifiers help achieve better performance than the same LLM with 30x model size and they scale well with additional data. Additionally, token-level verifiers outperformed solution-level verifiers.
 
-
 \item MGSM \cite{shi2022languagemodelsmultilingualchainofthought} evaluates the multilingual mathematical reasoning abilities of Large Language Models. It consists of 250 grade--school math problems from the GSM8K dataset, manually translated into ten diverse languages. The model receives a mathematical question in one of the target languages and generates a numerical answer, either directly or by providing intermediate reasoning steps using chain-of-thought prompting. The best reported result is 55.0\% accuracy, achieved by PaLM-540B using English chain-of-thought reasoning after translating the questions into English.
-\item Okapi \cite{lai2023okapiinstructiontunedlargelanguage} introduces a framework for instruction-tuning large language models in multiple languages using reinforcement learning from human feedback (RLHF). It covers 26 languages and provides approximately 158.000 instruction examples translated from English. The models are evaluated on their ability to follow instructions and perform knowledge-based and reasoning tasks across different languages. The best reported average result is 49.6\% accuracy on HellaSwag, achieved by the LLaMA-7B model fine-tuned using RLHF.
-\item Self-Translate \cite{etxaniz2023multilinguallanguagemodelsthink} investigates whether multilingual language models perform better on reasoning tasks when processing inputs in English rather than in their original language. It introduces a method called self-translate, in which the model first translates the input into English using four-shot prompting and then solves the task using the translated text. The approach is evaluated on five multilingual benchmarks: XStoryCloze, XCOPA, XNLI, PAWS-X, and MGSM, covering common-sense reasoning, natural language inference, paraphrase identification, and mathematical reasoning across multiple languages. Experiments are conducted using XGLM models ranging from 564M to 7.5B parameters and LLaMA models ranging from 7B to 30B parameters. The best reported average result is 46.6\% accuracy, achieved by LLaMA-30B using self-translate, compared to 43.1\% with direct inference. The results show that translating inputs into English consistently improves performance across the evaluated models.
 
+\item Okapi \cite{lai2023okapiinstructiontunedlargelanguage} introduces a framework for instruction-tuning large language models in multiple languages using reinforcement learning from human feedback (RLHF). It covers 26 languages and provides approximately 158.000 instruction examples translated from English. The models are evaluated on their ability to follow instructions and perform knowledge-based and reasoning tasks across different languages. The best reported average result is 49.6\% accuracy on HellaSwag, achieved by the LLaMA-7B model fine-tuned using RLHF.
+
+\item Self-Translate \cite{etxaniz2023multilinguallanguagemodelsthink} investigates whether multilingual language models perform better on reasoning tasks when processing inputs in English rather than in their original language. It introduces a method called self-translate, in which the model first translates the input into English using four-shot prompting and then solves the task using the translated text. The approach is evaluated on five multilingual benchmarks: XStoryCloze, XCOPA, XNLI, PAWS-X, and MGSM, covering common-sense reasoning, natural language inference, paraphrase identification, and mathematical reasoning across multiple languages. Experiments are conducted using XGLM models ranging from 564M to 7.5B parameters and LLaMA models ranging from 7B to 30B parameters. The best reported average result is 46.6\% accuracy, achieved by LLaMA-30B using self-translate, compared to 43.1\% with direct inference. The results show that translating inputs into English consistently improves performance across the evaluated models.
 
 \item XNLI \cite{DBLP:journals/corr/abs-1809-05053} introduces a cross-lingual natural language inference (NLI) benchmark for evaluating cross-lingual sentence representations. It extends the MultiNLI corpora to 15 languages, including low-resource ones. Consisting of 7500 human-annotated development and test examples in NLI three-way classification format, it makes up a total of 112,500 annotated pairs.
 
 \item PLLuM \cite{kocon2025pllum} presents a family of open-source polish foundation models, ranging from 8B to 70B parameters. A 140 billion token polish pretraining corpus was constructed from various texts. Special care was taken to extensively document legal compliance under polish and EU's framework. This model was later used in mObywatel as a virtual assistant.
 
-
 \item Artetxe et al. \cite{DBLP:journals/corr/abs-2004-04721} shows that human and machine translations can introduce subtle artifacts into data, which cross-lingual models are sensitive to. Fine-tuning on back-translated (round-trip translated) text improves performance on translated test improves accuracy in the translate-test setting by about 4.6 points on average. Training on machine-translated text also improved results, by about 2 points in zero-shot setting. Improvements only apply to translated texts. Based on these results, XNLI state of the art was improved by about 4.3 points in translate-test and 2.8 points in zero-shot.
 
+% Additional papers
 
+\item LLMzSz\L{} \cite{jassem2025llmzszl} introduces a comprehensive Polish benchmark based on nearly 19,000 multiple-choice questions from official examinations of the Polish Central Examination Board, covering 154 domains and four examination types. The authors evaluate 38 language models using answer likelihood and accuracy to compare multilingual and Polish-specific models. The best result is 67.17\% accuracy, achieved by Mistral-Large-Instruct-2407, followed by Llama-3.1-70B-Instruct with 66.59\%. The smaller Polish-focused Bielik-11B-v2.1-Instruct achieves 57.52\%, demonstrating that language-specific models can remain competitive despite having fewer parameters.
+
+\item Bielik 7B \cite{ociepa2025bielik} presents a Polish language model with 7 billion parameters, developed through continued pretraining of Mistral 7B. The model was trained on approximately 36 billion Polish and English tokens and fine-tuned using over 2.3 million instruction-response pairs. The authors introduce adaptive learning rate and weighted instruction loss to improve training. In the Open PL LLM Leaderboard's five-shot evaluation, Bielik achieves a RAG Reader score of 88.39, compared to 85.39 for Mistral-7B-v0.1. The results demonstrate that language-specific adaptation can improve performance on Polish question-answering tasks.
+
+\item Belebele \cite{bandarkar2024belebele} introduces a multilingual reading comprehension benchmark covering 122 language variants, including Polish and English. It contains 900 multiple-choice questions per language, based on 488 passages from FLORES-200, with four possible answers per question. The parallel dataset enables direct comparisons of language model performance across languages. The authors evaluate multilingual and generative language models using zero-shot, few-shot, and fine-tuning approaches. XLM-V achieves 60.2\% average accuracy across all languages using Translate-Train-All, outperforming GPT-3.5 Turbo, which achieves 51.1\% in zero-shot evaluation.
+
+\item LEPISZCZE \cite{augustyniak2022lepiszcze} introduces a comprehensive benchmark for Polish natural language processing, extending previous evaluation frameworks such as KLEJ. It includes 13 task-dataset configurations covering sentiment analysis, named entity recognition, part-of-speech tagging, and text classification. Five Transformer model configurations, including HerBERT, PolBERT, and XLM-RoBERTa, are evaluated using optimized fine-tuning procedures. HerBERT-large achieves the best overall average rank of 1.62, with 96.14\% macro-F1 on NKJP-POS and 39.44\% on AspectEmo. The results highlight substantial differences in model performance across Polish NLP tasks.
+
+\item ARC (AI2 Reasoning Challenge) \cite{clark2018arc} introduces a benchmark designed to evaluate scientific reasoning and question-answering abilities beyond simple information retrieval. It contains 7,787 multiple-choice science questions, divided into 2,590 Challenge and 5,197 Easy questions. The Challenge subset includes 1,172 test questions that cannot be correctly answered by two simple baseline methods. The authors evaluate several reasoning and neural models, including BiDAF and DGEM. The best reported Challenge test result is 27.11\% for DGEM, compared to 25.02\% for the random baseline, demonstrating the difficulty of questions requiring deeper reasoning. ARC-Challenge will be one of the datasets used in our project.
 
 \end{itemize}
+
 
 \begin{table*}[t]
 \centering
@@ -175,13 +187,15 @@ GSM8K
 & Public dataset
 & READY + TRANSLATION TO COLLECT \\
 
+
 ARC-Challenge
-& 2,590 test questions
-& Multiple-choice answers
-& To verify
-& To verify
+& 2,590 questions (1,119 train, 299 validation, 1,172 test)
+& Multiple-choice answers (one correct option)
+& Not applicable (no semantic class labels)
+& CC BY-SA 4.0
 & Public dataset
 & READY + TRANSLATION TO COLLECT \\
+
 
 BoolQ
 & 9,427 train records and 3,270 validation records
@@ -196,6 +210,7 @@ BoolQ
 \caption{Overview of the datasets.}
 \label{tab:datasets}
 \end{table*}
+
 As shown in Table~\ref{tab:datasets}, we consider four popular English benchmarks for our study. The original English datasets are publicly available -- READY, while Polish translations are TO COLLECT. Table~\ref{tab:datasets} also lists the licences under which the benchmarks are distributed. The BoolQ dataset does not contain any personal information, as its answers are based on Wikipedia paragraphs \cite{clark2019boolqexploringsurprisingdifficulty}. A subset of each benchmark will be translated using machine translation and reviewed.
 
 \section{Approach and research methodology}
@@ -233,8 +248,8 @@ The contribution for the project proposal are as follows:
 \begin{itemize}
 \item Piotr:
 \item Emil: $\approx$ 6 hours, describing the 4 papers and BoolQ Dataset, the introduction and project timetable paragraph.
-\item Patryk: 
-\item Michał: 
+\item Patryk: $\approx$ 4 hours, describing the 4 papers  and ARC Dataset
+\item Michał:
 \end{itemize}
 
 The use of LLMs is limited to the following tasks:
@@ -247,8 +262,7 @@ The use of LLMs is limited to the following tasks:
 \end{itemize}
 
 % include your bib file like this:
-%\bibliographystyle{acl}
-%\bibliography{acl2015}
 \bibliographystyle{acl}
 \bibliography{bibliography}
+
 \end{document}
