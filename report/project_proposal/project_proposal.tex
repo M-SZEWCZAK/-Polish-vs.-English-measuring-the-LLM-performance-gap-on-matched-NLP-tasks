@@ -233,6 +233,11 @@ the results and are discussed as a limitation of the study.
 The evaluation covers instruction-tuned open-weight models from multiple families, including different model sizes and a Polish-focused model such as Bielik. A commercial model may also be included.
 
 Models are evaluated using zero-shot prompting. Few-shot prompting may be done if it is necessary for smaller models. Answers are evaluated using exact match.
+We consider three prompt conditions that combine the language of the data
+with the language of the instruction: English data with an English
+instruction, Polish data with an English instruction, and Polish data with a
+Polish instruction. The question is identical across conditions; only the
+language of the question and of the surrounding instruction changes.
 
 \subsection*{Metrics and analysis}
 The main metric is the accuracy gap between English and Polish:
@@ -254,7 +259,7 @@ of translation errors are considered when interpreting the results. A manual err
 \node[box, right=of a] (b) {Fixed random sample\\500 items per task};
 \node[box, right=of b] (c) {Machine translation\\EN $\rightarrow$ PL};
 \node[box, right=of c] (d) {Quality checks\\automatic, manual,\\back-translation};
-\node[box, below=of d] (e) {Run LLMs\\6--7 models};
+\node[box, below=of d] (e) {Run LLMs\\6--7 models,\\3 prompt conditions};
 \node[box, left=of e] (f) {Answer extraction\\and exact match};
 \node[box, left=of f] (g) {Accuracy EN / PL,\\gap $\Delta$, 95\% CI};
 \node[box, left=of g] (h) {Analysis: gap\\decomposition,\\tokenization, errors};
