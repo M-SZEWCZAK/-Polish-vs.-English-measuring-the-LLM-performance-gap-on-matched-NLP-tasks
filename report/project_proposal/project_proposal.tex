@@ -39,7 +39,7 @@
   {\tt 01180750@pw.edu.pl} \\ \And
   supervisor: Michał Gromadzki\\
   Warsaw University of Technology \\
-  {\tt XXXXXXXXXXX@pw.edu.pl}}
+  {\tt michal.gromadzki.dokt@pw.edu.pl}}
 
 \date{}
 
@@ -54,30 +54,73 @@
   The proposal of the project consists of building a small and reproducible Polish--English benchmark, evaluating several Large Language Models under identical prompts, and quantifying how much of the observed performance gap is due to model size, prompting and translation quality.
 \end{abstract}
 \section{Introduction}
-Large language models are typically assessed mainly in English, but their effectiveness in Polish may vary considerably. Examining these differences helps reveal the limitations and weaknesses that multilingual models still face. The preliminary hypothesis we claim is that evaluated model scores lower on the Polish version than on the English version of each task. Prior work typically reports many languages with one or two prompts, so the Polish result is a single data point.
-This project instead fixes four tasks, one language pair, and a controlled grid of models, prompt language and translation variants.
-This allows a decomposition of the gap rather than only its measurement.
+Large language models are typically assessed mainly in English, but their effectiveness in Polish may vary considerably. Examining these differences helps reveal the limitations and weaknesses that multilingual models still face. Our preliminary hypothesis is that LLM performance differs
+between English and Polish, with a general tendency toward
+lower performance on Polish inputs. However, the magnitude
+and direction of this difference may vary across tasks, model
+families, model sizes, and prompting conditions.
+The project fixes four tasks, and a controlled grid of models, and prompt language. This allows a decomposition of the gap rather than only its measurement.
 
 We propose the follolwing specific research goals:
 \begin{itemize}
   \item a Polish--English benchmark covering four tasks, with a documented translation procedure.
   \item results for multiple LLMs under matched conditions.
-  \item quantitative analysis of the gap and its dependence on task, model size and family, prompt language, translation quality and tokenization.
+  \item quantitative analysis of the performance gap across
+tasks, model sizes, model families, and prompt languages,
+with additional investigation of tokenization effects.
 \end{itemize}
 
-\section{Concept work}
-The concept work of the project are as follows. Each of the 
-\begin{enumerate}
-    \item Preparation: Literature review, dataset checks, selection of subset sizes and models, and repository set-up.
-    \item Data preparation: Sampling of English subsets, machine translation into Polish, documentation of the translation process, and automatic consistency checks.
-    \item Verification: Human review of a randomly selected sample and back-translation checks.
-    \item Evaluation pipeline: Development of unified English and Polish prompts, answer extraction and scoring procedures, and preliminary tests on a small sample.
-    \item Main experiments: Evaluation of all selected models across tasks, languages, and prompt variants.
-    \item Analysis: Performance gap estimation, statistical significance testing, performance decomposition, tokenization analysis, and error analysis.
-    \item Reporting: Preparation of the final report, code release.
-\end{enumerate}
+The concept work of the project are presented in Table~\ref{tab:project_timeline}.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{p{0.10\columnwidth} p{0.57\columnwidth} p{0.23\columnwidth}}
+\hline
+\textbf{Week} & \textbf{Tasks and deliverables} & \textbf{Responsible} \\
+\hline
+1 &
+Dataset inspection, model and subset selection, repository setup, and experiment planning. &
+Persons 1, 2 \\
+
+\hline
+2 &
+English subset sampling, Polish translation, translation documentation, and exploratory data analysis. &
+Persons 1, 3 \\
+
+\hline
+3 &
+Translation verification, back-translation checks, evaluation pipeline development, and proof of concept with the first result. &
+Persons 2, 4 \\
+
+\hline
+4 &
+Prompt finalization, baseline selection, metric definition, preliminary evaluation, and runtime/memory measurements. &
+Persons 2, 3 \\
+
+\hline
+5--6 &
+Main experiments across models, languages, tasks, and prompt variants; repeated runs for uncertainty estimation. &
+Persons 3, 4 \\
+
+\hline
+7 &
+Statistical analysis, performance comparison, tokenization analysis, error analysis, and limitations. &
+Persons 1, 4 \\
+
+\hline
+8 &
+Final report, revised literature review, reproducibility checks, README, and code release. &
+All four persons \\
+\hline
+\end{tabular}
+\caption{Project timeline, task allocation, and responsibilities over eight weeks.}
+\label{tab:project_timeline}
+\end{table}
 
 \section{State-of-the-Art Papers}
+
 \begin{itemize} 
 \item BoolQ \cite{clark2019boolqexploringsurprisingdifficulty} evaluates whether a model can answer natural yes/no questions using a supporting passage. It uses approximately 16.000 naturally occurring questions paired with Wikipedia paragraphs. The model receives a question and its passage and predicts either “yes” or “no.” The best reported result is 80.43\% accuracy, achieved by BERT-large with MultiNLI pretraining, fine-tuned on BoolQ. This dataset will be used as one of the benchmarks in our project.
 
@@ -161,7 +204,15 @@ As shown in Table~\ref{tab:datasets}, we consider four popular English benchmark
 The study uses subsets of four benchmarks: MMLU, GSM8K, ARC-Challenge and BoolQ. Fixed random samples are selected from their official test splits, with stratification by subject for MMLU. English samples are translated into Polish while preserving the original dataset structure.
 
 \subsection*{Translation procedure}
-Machine translation is used to create Polish versions of the datasets. Automatic checks verify the preservation of answer options, numbers, units and text completeness. A random sample is reviewed by Polish-speaking team members and checked through back-translation to identify potential meaning changes. Translation settings and decisions are documented.
+Machine translation is used to create one Polish version of
+each selected dataset subset. Automatic checks verify the
+preservation of answer options, numbers, units, and text
+completeness. A randomly selected sample is reviewed by
+Polish-speaking team members and checked through
+back-translation to identify potential meaning changes.
+Translation settings and decisions are documented.
+Potential translation errors are considered when interpreting
+the results and are discussed as a limitation of the study.
 
 \subsection*{Models and prompting}
 The evaluation covers instruction-tuned open-weight models from multiple families, including different model sizes and a Polish-focused model such as Bielik. A commercial model may also be included.
@@ -173,15 +224,27 @@ The main metric is the accuracy gap between English and Polish:
 \[
 \Delta = \text{Acc}_{EN} - \text{Acc}_{PL}.
 \]
-Results are analysed using 95\% confidence intervals and statistical significance tests. Additional analyses examine differences across tasks and model sizes, the effects of translation quality and prompt language, and the relationship between tokenization and model performance. A manual error analysis investigates cases where models answer correctly in English but incorrectly in Polish.
+Results are analysed using 95\% confidence intervals and statistical significance tests. Additional analyses examine differences across tasks and model sizes, the effects of prompt language, and the relationship
+between tokenization and model performance. Potential effects
+of translation errors are considered when interpreting the results. A manual error analysis investigates cases where models answer correctly in English but incorrectly in Polish.
 
 \section{Contribution table and declaration of LLM use}
-Contribution:
-- Emil: $\approx$ 6 hours, 4 papers and BoolQ Dataset, the introduction and concept work paragraph, 
-- 
+The contribution for the project proposal are as follows:
+\begin{itemize}
+\item Piotr:
+\item Emil: $\approx$ 6 hours, describing the 4 papers and BoolQ Dataset, the introduction and project timetable paragraph.
+\item Patryk: 
+\item Michał: 
+\end{itemize}
 
-The use of LLMs are follows:
-- using
+The use of LLMs is limited to the following tasks:
+\begin{itemize}
+    \item Obtaining an initial overview of the project.
+    \item Correcting grammatical errors.
+    \item Reviewing the text for substantial issues and inconsistencies.
+    \item Generating LaTeX tables.
+    \item Drafting short passages, followed by verification and manual revision of the generated content.
+\end{itemize}
 
 % include your bib file like this:
 %\bibliographystyle{acl}
