@@ -152,7 +152,17 @@ All four persons \\
 \item LEPISZCZE \cite{augustyniak2022lepiszcze} introduces a comprehensive benchmark for Polish natural language processing, extending previous evaluation frameworks such as KLEJ. It includes 13 task-dataset configurations covering sentiment analysis, named entity recognition, part-of-speech tagging, and text classification. Five Transformer model configurations, including HerBERT, PolBERT, and XLM-RoBERTa, are evaluated using optimized fine-tuning procedures. HerBERT-large achieves the best overall average rank of 1.62, with 96.14\% macro-F1 on NKJP-POS and 39.44\% on AspectEmo. The results highlight substantial differences in model performance across Polish NLP tasks.
 
 \item ARC (AI2 Reasoning Challenge) \cite{clark2018arc} introduces a benchmark designed to evaluate scientific reasoning and question-answering abilities beyond simple information retrieval. It contains 7,787 multiple-choice science questions, divided into 2,590 Challenge and 5,197 Easy questions. The Challenge subset includes 1,172 test questions that cannot be correctly answered by two simple baseline methods. The authors evaluate several reasoning and neural models, including BiDAF and DGEM. The best reported Challenge test result is 27.11\% for DGEM, compared to 25.02\% for the random baseline, demonstrating the difficulty of questions requiring deeper reasoning. ARC-Challenge will be one of the datasets used in our project.
+\item Huang et al. \cite{huang-etal-2023-languages} introduces Cross-Lingual-Thought (XLT) prompting, a strategy that encourages Large Language Models (LLMs) to engage in cross-lingual and logical reasoning by translating or rephrasing prompt queries into English before executing step-by-step reasoning. It is evaluated across arithmetic reasoning, multi-hop reasoning, and multilingual NLP benchmarks in multiple languages, such as MGSM and Native Reasoning datasets. The approach demonstrates consistent performance gains over direct native-language prompting by bridging cross-lingual reasoning gaps and leveraging English-centric knowledge representation, achieving a $+8.5\%$ average accuracy improvement over direct prompting on MGSM.
 
+\item Liu et al. \cite{liu-etal-2025-translation} investigates the trade-offs and limitations of translation-based prompting versus native-language prompting, evaluating when English translation helps or hinders task performance. The study evaluates models on standard NLP reasoning tasks as well as culture-specific and socio-linguistic benchmarks across high- and low-resource languages. The results show that while translating to English improves performance on standard NLP tasks for English-centric models, native-language prompting significantly outperforms translation on culture-related tasks requiring deep local context, achieving up to $12.4\%$ higher accuracy than English translation.
+
+\item Wendler et al. \cite{wendler-etal-2024-llamas} applies mechanistic interpretability techniques, specifically the logit lens, to analyze intermediate layer representations of multilingual transformer models like the Llama-2 family during non-English processing. The study tests models on parallel multilingual text inputs across high-, medium-, and low-resource languages. The analysis maps internal model transitions showing a progression from the input language space to an intermediate, English-biased ``concept space,'' and finally decoding into the target language output space, exhibiting greater than $70\%$ probability alignment with English concepts in intermediate layers (layers 12--24).
+
+\item Xuan et al. \cite{xuan-etal-2025-mmlu} introduces MMLU-ProX, a massively multilingual benchmark designed for robust evaluation of reasoning and knowledge across typologically diverse languages using parallel, high-quality questions. The benchmark comprises parallel evaluation sets across 29 diverse languages spanning multiple domains and subjects. The evaluation reveals severe performance degradation in state-of-the-art LLMs on low-resource and non-Western languages, achieving an average accuracy of $68.2\%$ on high-resource splits compared to just $31.4\%$ on low-resource splits such as African languages, representing a performance drop of approximately $36.8\%$.
+
+\item Hendrycks et al. \cite{hendrycks2021measuring} proposes a massive multitask language understanding test covering 57 tasks, including STEM, humanities, social sciences, law, and ethics, evaluated under zero-shot and few-shot settings to measure a model's extensive world knowledge and problem-solving abilities. The dataset consists of 15,908 total multiple-choice questions collected from online sources, professional practice exams, and university-level materials. The evaluation finds that while the 175B parameter GPT-3 model outperforms random chance with an average accuracy of $43.9\%$, its performance remains subhuman across all tasks, exhibiting lopsided weaknesses in calculation-heavy and value-laden subjects, along with significant model miscalibration.
+
+\item Petrov et al. \cite{petrov2023language} demonstrates how disparities in the treatment of different languages arise systematically at the tokenization stage prior to model invocation, introducing the concept of ``tokenizer parity'' and advocating for multilingually fair subword tokenizers. The approach is evaluated across the FLORES-200 parallel corpus spanning 200 languages using English-centric, multilingual, and byte-level tokenizers. The results show that tokenization lengths for identical semantic content can vary by up to 15 times—such as with the ChatGPT/GPT-4 tokenizer ($\text{cl100k\_base}$) on low-resource languages like Shan relative to English—directly introducing severe economic, latency, and context-length inequalities.
 \end{itemize}
 
 
@@ -175,8 +185,8 @@ All four persons \\
 MMLU
 & 14,042 test questions
 & Multiple-choice answers (4 options)
-& To verify
-& To verify
+& Some subjects contain many questions (more than 1500), but most have much less (up to 200)
+& MIT licence
 & Public dataset
 & READY + TRANSLATION TO COLLECT \\
 
@@ -287,7 +297,7 @@ The contribution for the project proposal are as follows:
 \item Piotr: $\approx$ 5 hours, describing the 4 papers and the GSM8K dataset
 \item Emil: $\approx$ 8 hours, describing the 4 papers and BoolQ Dataset, the introduction, methodology and project timetable paragraph.
 \item Patryk: $\approx$ 4 hours, describing the 4 papers  and ARC Dataset
-\item Michał:
+\item Michał: $\approx$ 5 hours, describing the 5 papers and the MMLU dataset
 \end{itemize}
 
 The use of LLMs is limited to the following tasks:
