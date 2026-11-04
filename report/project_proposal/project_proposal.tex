@@ -28,7 +28,7 @@
 \title{Polish vs. English: measuring the LLM performance gap on matched NLP tasks\\Project Proposal for NLP Course, Winter 2026/27}
 
 \author{Piotr Czarnecki \\
-  Album number ABCDEF \\
+  Album number 327335 \\
   {\tt 01180766@pw.edu.pl} \\ \And
   Emil Łasocha \\
   Album number 341168 \\
@@ -64,7 +64,7 @@ and direction of this difference may vary across tasks, model
 families, model sizes, and prompting conditions.
 The project fixes four tasks, and a controlled grid of models, and prompt language. This allows a decomposition of the gap rather than only its measurement.
 
-We propose the follolwing specific research goals:
+We propose the following specific research goals:
 \begin{itemize}
   \item a Polish--English benchmark covering four tasks, with a documented translation procedure.
   \item results for multiple LLMs under matched conditions.
@@ -125,9 +125,9 @@ All four persons \\
 \section{State-of-the-Art Papers}
 
 \begin{itemize}
-\item BoolQ \cite{clark2019boolqexploringsurprisingdifficulty} evaluates whether a model can answer natural yes/no questions using a supporting passage. It uses approximately 16.000 naturally occurring questions paired with Wikipedia paragraphs. The model receives a question and its passage and predicts either ``yes'' or ``no.'' The best reported result is 80.43\% accuracy, achieved by BERT-large with MultiNLI pretraining, fine-tuned on BoolQ. This dataset will be used as one of the benchmarks in our project.
+\item BoolQ \cite{clark2019boolqexploringsurprisingdifficulty} evaluates whether a model can answer natural yes/no questions using a supporting passage. It uses approximately 16.000 naturally occurring questions paired with Wikipedia paragraphs. The model receives a question and its passage and predicts either ``yes'' or ``no.'' The best reported result is 80.43\% accuracy, achieved by BERT-large with MultiNLI pre-training, fine-tuned on BoolQ. This dataset will be used as one of the benchmarks in our project.
 
-\item GSM8K \cite{DBLP:journals/corr/abs-2110-14168} introduces curated dataset of 8.5 thousand high-quality grade school math problems with natural-language solutions. It then proposes to employ training verifiers to improve LMM's multi-step mathematical reasoning. The generator was fine-tuned for 2 epochs. 100 solutions per training problem were then sampled from it. Each solution was labeled as correct or incorrect, based only on the final answer. Then a separate verifier was trained for 1 epoch to rank solutions. Verifiers help achieve better performance than the same LLM with 30x model size and they scale well with additional data. Additionally, token-level verifiers outperformed solution-level verifiers.
+\item GSM8K \cite{DBLP:journals/corr/abs-2110-14168} introduces curated dataset of 8.5 thousand high-quality grade school math problems with natural-language solutions. It then proposes to employ training verifiers to improve LMM's multi-step mathematical reasoning. The generator was fine-tuned for 2 epochs. 100 solutions per training problem were then sampled from it. Each solution was labelled as correct or incorrect, based only on the final answer. Then a separate verifier was trained for 1 epoch to rank solutions. Verifiers help achieve better performance than the same LLM with 30x model size and they scale well with additional data.
 
 \item MGSM \cite{shi2022languagemodelsmultilingualchainofthought} evaluates the multilingual mathematical reasoning abilities of Large Language Models. It consists of 250 grade--school math problems from the GSM8K dataset, manually translated into ten diverse languages. The model receives a mathematical question in one of the target languages and generates a numerical answer, either directly or by providing intermediate reasoning steps using chain-of-thought prompting. The best reported result is 55.0\% accuracy, achieved by PaLM-540B using English chain-of-thought reasoning after translating the questions into English.
 
@@ -217,7 +217,6 @@ As shown in Table~\ref{tab:datasets}, we consider four popular English benchmark
 \section{Approach and research methodology}
 
 
-
 \subsection*{Tasks and data}
 The study uses subsets of four benchmarks: MMLU, GSM8K, ARC-Challenge and BoolQ. Fixed random samples are selected (initially estimating 500) from their official test splits, with stratification by subject for MMLU. English samples are translated into Polish while preserving the original dataset structure.
 
@@ -280,7 +279,7 @@ Success deliverables:
 \section{Contribution table and declaration of LLM use}
 The contribution for the project proposal are as follows:
 \begin{itemize}
-\item Piotr:
+\item Piotr: $\approx$ 5 hours, describing the 4 papers and the GSM8K dataset
 \item Emil: $\approx$ 8 hours, describing the 4 papers and BoolQ Dataset, the introduction, methodology and project timetable paragraph.
 \item Patryk: $\approx$ 4 hours, describing the 4 papers  and ARC Dataset
 \item Michał:
