@@ -62,14 +62,14 @@ between English and Polish, with a general tendency toward
 lower performance on Polish inputs. However, the magnitude
 and direction of this difference may vary across tasks, model
 families, model sizes, and prompting conditions.
-The project fixes four tasks, and a controlled grid of models, and prompt language. This allows a decomposition of the gap rather than only its measurement.
+The project fixes four tasks, and a controlled grid of models. This allows a decomposition of the gap rather than only its measurement.
 
 We propose the following specific research goals:
 \begin{itemize}
   \item a Polish--English benchmark covering four tasks, with a documented translation procedure.
   \item results for multiple LLMs under matched conditions.
   \item quantitative analysis of the performance gap across
-tasks, model sizes, model families, and prompt languages,
+tasks, model sizes, and model families,
 with additional investigation of tokenization effects where possible.
 \end{itemize}
 
@@ -104,7 +104,7 @@ Emil, Michał \\
 
 \hline
 5--6 &
-Main experiments across models, languages, tasks, and prompt variants; repeated runs for uncertainty estimation. &
+Main experiments across models, languages, and tasks; repeated runs for uncertainty estimation. &
 Patryk, Piotr, Michał \\
 
 \hline
@@ -147,7 +147,7 @@ All four persons \\
 
 \item Bielik 7B \cite{ociepa2025bielik} presents a Polish language model with 7 billion parameters, developed through continued pretraining of Mistral 7B. The model was trained on approximately 36 billion Polish and English tokens and fine-tuned using over 2.3 million instruction-response pairs. The authors introduce adaptive learning rate and weighted instruction loss to improve training. In the Open PL LLM Leaderboard's five-shot evaluation, Bielik achieves a RAG Reader score of 88.39, compared to 85.39 for Mistral-7B-v0.1. The results demonstrate that language-specific adaptation can improve performance on Polish question-answering tasks.
 
-\item Belebele \cite{bandarkar2024belebele} introduces a multilingual reading comprehension benchmark covering 122 language variants, including Polish and English. It contains 900 multiple-choice questions per language, based on 488 passages from FLORES-200, with four possible answers per question. The parallel dataset enables direct comparisons of language model performance across languages. The authors evaluate multilingual and generative language models using zero-shot, few-shot, and fine-tuning approaches. XLM-V achieves 60.2\% average accuracy across all languages using Translate-Train-All, outperforming GPT-3.5 Turbo, which achieves 51.1\% in zero-shot evaluation.
+\item Belebele \cite{bandarkar2024belebele} introduces a multilingual reading comprehension benchmark covering 122 language variants, including Polish and English. It contains 900 multiple-choice questions per language, based on 488 passages from FLORES-200, with four possible answers per question. The parallel dataset enables direct comparisons of language model performance across languages. The authors evaluate multilingual and generative language models using zero-shot, and fine-tuning approaches. XLM-V achieves 60.2\% average accuracy across all languages using Translate-Train-All, outperforming GPT-3.5 Turbo, which achieves 51.1\% in zero-shot evaluation.
 
 \item LEPISZCZE \cite{augustyniak2022lepiszcze} introduces a comprehensive benchmark for Polish natural language processing, extending previous evaluation frameworks such as KLEJ. It includes 13 task-dataset configurations covering sentiment analysis, named entity recognition, part-of-speech tagging, and text classification. Five Transformer model configurations, including HerBERT, PolBERT, and XLM-RoBERTa, are evaluated using optimized fine-tuning procedures. HerBERT-large achieves the best overall average rank of 1.62, with 96.14\% macro-F1 on NKJP-POS and 39.44\% on AspectEmo. The results highlight substantial differences in model performance across Polish NLP tasks.
 
@@ -221,8 +221,8 @@ BoolQ
 \caption{Overview of the datasets.}
 \label{tab:datasets}
 \end{table*}
-
-As shown in Table~\ref{tab:datasets}, we consider four popular English benchmarks for our study. The original English datasets are publicly available -- READY, while Polish translations are TO COLLECT. Table~\ref{tab:datasets} also lists the licences under which the benchmarks are distributed. The BoolQ dataset does not contain any personal information, as its answers are based on Wikipedia paragraphs \cite{clark2019boolqexploringsurprisingdifficulty}. The GSM8K dataset is made up of grade school math questions and it does not contain any personal informations \cite{DBLP:journals/corr/abs-2110-14168}.
+\section{Benchmarks}
+As shown in Table~\ref{tab:datasets}, we consider four popular English benchmarks for our study. The original English datasets are publicly available -- READY, while Polish translations are TO COLLECT. Table~\ref{tab:datasets} also lists the licences under which the benchmarks are distributed. The BoolQ dataset does not contain any personal information, as its answers are based on Wikipedia paragraphs \cite{clark2019boolqexploringsurprisingdifficulty}. The GSM8K dataset is made up of grade school math questions and it does not contain any personal informations \cite{DBLP:journals/corr/abs-2110-14168}. Similarly, the ARC-Challenge and MMLU datasets are test questions \& answers, hence they do not contain personal information.
 
 \section{Approach and research methodology}
 
@@ -242,21 +242,15 @@ the results and are discussed as a limitation of the study.
 \subsection*{Models and prompting}
 The evaluation covers instruction-tuned open-weight models from multiple families, including different model sizes and a Polish-focused model such as Bielik. A commercial model may also be included.
 
-Models are evaluated using zero-shot prompting. Few-shot prompting may be done if it is necessary for smaller models. Answers are evaluated using exact match.
-We consider three prompt conditions that combine the language of the data
-with the language of the instruction: English data with an English
-instruction, Polish data with an English instruction, and Polish data with a
+Models are evaluated using zero-shot prompting. Answers are evaluated using exact match.
+We consider two prompt conditions: English data with an English
+instruction, and Polish data with a
 Polish instruction. The question is identical across conditions; only the
-language of the question and of the surrounding instruction changes.
+language of the question changes. Decoding is greedy, so results are deterministic; uncertainty is estimated
+with paired bootstrap confidence intervals over items.
 
 \subsection*{Metrics and analysis}
-The main metric is the accuracy gap between English and Polish:
-\[
-\Delta = \text{Acc}_{EN} - \text{Acc}_{PL}.
-\]
-Results are analysed using 95\% confidence intervals and statistical significance tests. Additional analyses examine differences across tasks and model sizes, the effects of prompt language, and the relationship
-between tokenization and model performance, for models supporting tokenizer access. We compare the accuracies to a baseline model in order to compare the accuracy results with a random guess.  Potential effects
-of translation errors are considered when interpreting the results. A manual error analysis investigates cases where models answer correctly in English but incorrectly in Polish.
+
 
 \begin{figure*}[t]
 \centering
@@ -269,7 +263,7 @@ of translation errors are considered when interpreting the results. A manual err
 \node[box, right=of a] (b) {Fixed random sample\\500 items per task};
 \node[box, right=of b] (c) {Machine translation\\EN $\rightarrow$ PL};
 \node[box, right=of c] (d) {Quality checks\\automatic, manual,\\back-translation};
-\node[box, below=of d] (e) {Run LLMs\\6--7 models,\\3 prompt conditions};
+\node[box, below=of d] (e) {Run LLMs\\6 models,\\2 prompt conditions};
 \node[box, left=of e] (f) {Answer extraction\\and exact match};
 \node[box, left=of f] (g) {Accuracy EN / PL,\\gap $\Delta$, 95\% CI};
 \node[box, left=of g] (h) {Analysis: gap\\decomposition,\\tokenization, errors};
@@ -279,6 +273,19 @@ of translation errors are considered when interpreting the results. A manual err
 \caption{Experimental pipeline. The same 500 items per task are evaluated in English and in their Polish translation, so every comparison is paired.}
 \label{fig:pipeline}
 \end{figure*}
+The main metric is the accuracy gap between English and Polish:
+\[
+\Delta = \text{Acc}_{EN} - \text{Acc}_{PL}.
+\]
+Results are analysed using 95\% confidence intervals and statistical significance tests. To decompose the gap, we compare $\Delta$ across tasks, across model families,
+and across model sizes within the same family, which shows how much of the gap
+depends on each factor. To estimate the effect of translation quality, we
+compute $\Delta$ separately on items that passed manual and back-translation
+review and on items flagged as problematic; the part of the gap that remains
+on the clean items is attributed to language-specific difficulty. Additional analyses examine differences across tasks and model sizes, and the relationship
+between tokenization and model performance, for models supporting tokenizer access. We compare the accuracies to a baseline model in order to compare the accuracy results with a random guess.  Potential effects
+of translation errors are considered when interpreting the results. A manual error analysis investigates cases where models answer correctly in English but incorrectly in Polish.
+
 
 \subsection*{Solution concept and success deliverables}
 Figure~\ref{fig:pipeline} shows the pipeline. Metrics and analyses are fixed
@@ -286,17 +293,16 @@ before any results are available.
 Success deliverables:
 \begin{enumerate}
 \item A released benchmark of 4 tasks $\times$ 500 items in English and Polish, with documented and verified translation.
-\item Evaluation of 6 instruction-tuned LLMs (2 families with
-  2 sizes each, including Bielik) under matched conditions.
+\item Evaluation of 6 instruction-tuned LLMs under matched conditions.
 \item A quantitative decomposition of the gap with confidence intervals, and error analyses.
 \end{enumerate}
 
 \section{Contribution table and declaration of LLM use}
 The contribution for the project proposal are as follows:
 \begin{itemize}
-\item Piotr: $\approx$ 5 hours, describing the 4 papers and the GSM8K dataset
+\item Piotr: $\approx$ 5 hours, describing the 5 papers and the GSM8K dataset
 \item Emil: $\approx$ 8 hours, describing the 4 papers and BoolQ Dataset, the introduction, methodology and project timetable paragraph.
-\item Patryk: $\approx$ 4 hours, describing the 4 papers  and ARC Dataset
+\item Patryk: $\approx$ 4 hours, describing the 5 papers  and ARC Dataset
 \item Michał: $\approx$ 5 hours, describing the 5 papers and the MMLU dataset
 \end{itemize}
 
